@@ -339,15 +339,6 @@ button:focus-visible,input:focus-visible{outline:3px solid var(--gold);outline-o
 .lan-body::after{animation:flicker 2.3s ease-in-out infinite}
 @keyframes flicker{0%,100%{opacity:1;transform:scale(1)}30%{opacity:.78;transform:scale(.88)}55%{opacity:1;transform:scale(1.08)}80%{opacity:.88;transform:scale(.96)}}
 
-/* 签收按钮的邀请波纹 */
-.breathe{position:relative}
-.breathe::after{
-  content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;
-  box-shadow:0 0 0 0 var(--accent);opacity:0;animation:ring 2.8s ease-out 1.4s infinite;
-}
-.breathe:disabled::after{animation:none}
-@keyframes ring{0%{opacity:.5;box-shadow:0 0 0 0 var(--accent)}70%{opacity:0;box-shadow:0 0 0 12px var(--accent)}100%{opacity:0;box-shadow:0 0 0 12px var(--accent)}}
-
 /* 月饼在等你咬 */
 .cake-btn.idle{animation:cakeIdle 4.2s ease-in-out 1.2s infinite}
 @keyframes cakeIdle{0%,76%,100%{transform:rotate(0)}82%{transform:rotate(-3deg)}88%{transform:rotate(2.5deg)}94%{transform:rotate(-1deg)}}
@@ -367,7 +358,7 @@ button:focus-visible,input:focus-visible{outline:3px solid var(--gold);outline-o
 @keyframes popIn{from{opacity:0;transform:scale(.92)}to{opacity:1;transform:none}}
 
 @media (prefers-reduced-motion: reduce){
-  .bunny,.ear-l,.ear-r,.star,.hang,.hang.pop,.moon-halo,.lan-body::after,.breathe::after,.cake-btn.idle,.dots i.on,
+  .bunny,.ear-l,.ear-r,.star,.hang,.hang.pop,.moon-halo,.lan-body::after,.cake-btn.idle,.dots i.on,
   .bubble,.sheet,.code-card,.screen.entering .note,.screen.entering .note > :not(.tape){animation:none}
   .screen,.screen.active{transition:opacity .2s linear,visibility 0s}
   .screen{transform:none}
@@ -417,7 +408,7 @@ button:focus-visible,input:focus-visible{outline:3px solid var(--gold);outline-o
       <h1 class="title">叮咚～<br><span id="intro-to"></span>你有一份月光待签收</h1>
       <p class="from">寄件人：<span data-from></span></p>
       <p class="keep" id="keep" hidden>小兔子还替你保管着<b id="keep-n">0</b>个心愿</p>
-      <button class="btn breathe" id="btn-sign">签收一下</button>
+      <button class="btn" id="btn-sign">签收一下</button>
       <button class="link" id="btn-skip" hidden>直接去看心愿</button>
     </div>
   </section>
