@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="light dark">
+<title>中秋快乐 🥮</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=ZCOOL+KuaiLe&display=swap" rel="stylesheet">
+<style>
+:root{
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+  /* 黄昏粉（浅色） */
+  --sky-1:#f9cdb7; --sky-2:#f3b7c7; --sky-3:#cfb8e8;
+  --ink:#4b3550; --ink-soft:#634569;
+  --moon:#fff3cf; --moon-glow:rgba(255,236,170,.75);
+  --card:rgba(255,255,255,.72); --card-line:rgba(255,255,255,.92);
+  --accent:#d65573; --accent-deep:#a93d58; --accent-ink:#fff;
+  --gold:#f2b93b;
+  --star-o:.5;
+  --display:"ZCOOL KuaiLe","PingFang SC","Hiragino Sans GB","Microsoft YaHei","Noto Sans SC",sans-serif;
+  --body:"PingFang SC","Hiragino Sans GB","Microsoft YaHei","Noto Sans SC",system-ui,sans-serif;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --sky-1:#171a45; --sky-2:#2d2863; --sky-3:#5a3f7e;
+    --ink:#fff4e4; --ink-soft:#dccbea;
+    --moon:#ffe9a6; --moon-glow:rgba(255,226,140,.5);
+    --card:rgba(34,28,72,.62); --card-line:rgba(255,255,255,.16);
+    --accent:#e0607f; --accent-deep:#9e3552; --accent-ink:#fff;
+    --star-o:1;
+  }
+}
+:root[data-theme="dark"]{
+  --sky-1:#171a45; --sky-2:#2d2863; --sky-3:#5a3f7e;
+  --ink:#fff4e4; --ink-soft:#dccbea;
+  --moon:#ffe9a6; --moon-glow:rgba(255,226,140,.5);
+  --card:rgba(34,28,72,.62); --card-line:rgba(255,255,255,.16);
+  --accent:#e0607f; --accent-deep:#9e3552; --accent-ink:#fff;
+  --star-o:1;
+}
+*,*::before,*::after{box-sizing:inherit}
+[hidden]{display:none !important}
+html{height:100%;scroll-padding-top:env(safe-area-inset-top,0px);touch-action:manipulation}
+body{
+  margin:0;height:100%;overflow:hidden;
+  background:var(--sky-2);
+  background-image:linear-gradient(180deg,var(--sky-1) 0%,var(--sky-2) 55%,var(--sky-3) 100%);
+  color:var(--ink);font-family:var(--body);
+  -webkit-tap-highlight-color:transparent;
+}
+.stage{position:relative;height:100%;overflow:hidden}
+
+/* ---------- 天空 ---------- */
+.stars{position:absolute;inset:0;pointer-events:none;opacity:var(--star-o);transition:opacity .6s}
+.star{position:absolute;border-radius:50%;background:#fff;animation:twinkle var(--d) ease-in-out var(--delay) infinite}
+@keyframes twinkle{0%,100%{opacity:.25}50%{opacity:1}}
+
+.moon{
+  position:absolute;z-index:0;
+  top:clamp(18px,5vh,48px);right:clamp(18px,7vw,64px);
+  width:clamp(84px,24vw,150px);aspect-ratio:1;border-radius:50%;
+  background:radial-gradient(circle at 35% 35%,#fffdf3 0%,var(--moon) 55%,#f3d58a 100%);
+  box-shadow:0 0 40px 10px var(--moon-glow),0 0 120px 40px var(--moon-glow);
+  transition:box-shadow 1.2s ease,transform 1.2s ease;
+}
+.moon::before,.moon::after{content:"";position:absolute;border-radius:50%;background:rgba(214,176,100,.22)}
+.moon::before{width:18%;height:18%;top:26%;left:58%}
+.moon::after{width:12%;height:12%;top:58%;left:30%}
+.moon.glow{box-shadow:0 0 70px 26px var(--moon-glow),0 0 200px 90px var(--moon-glow);transform:scale(1.07)}
+
+/* ---------- 小兔子 ---------- */
+.bunny{
+  position:absolute;z-index:1;left:clamp(10px,4vw,40px);bottom:6px;
+  width:clamp(72px,20vw,104px);aspect-ratio:1;pointer-events:none;user-select:none;
+  animation:bob 3.4s ease-in-out infinite;
+}
+.bunny svg{display:block;width:100%;height:100%;overflow:visible}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
+.ear{transform-box:fill-box;transform-origin:50% 90%}
+.ear-l{animation:earL 5s ease-in-out infinite}
+.ear-r{animation:earR 5s ease-in-out 1.3s infinite}
+@keyframes earL{0%,78%,100%{transform:rotate(0)}84%{transform:rotate(-9deg)}90%{transform:rotate(4deg)}}
+@keyframes earR{0%,78%,100%{transform:rotate(0)}84%{transform:rotate(9deg)}90%{transform:rotate(-4deg)}}
+.eyes-happy{display:none}
+.bunny.happy .eyes-open{display:none}
+.bunny.happy .eyes-happy{display:inline}
+
+/* ---------- 特效层 ---------- */
+.fx{position:fixed;inset:0;pointer-events:none;overflow:hidden}
+.fx-back{z-index:1}
+.fx-front{z-index:4}
+.petal{position:absolute;top:0;color:var(--gold);line-height:1;text-shadow:0 0 6px rgba(255,210,120,.6)}
+.crumb{position:absolute;border-radius:40%}
+.lantern{position:absolute;width:44px;height:56px}
+.lan-body{
+  width:100%;height:100%;
+  border-radius:46% 46% 20% 20% / 56% 56% 22% 22%;
+  background:linear-gradient(180deg,#ffe19a 0%,#ff9d5c 68%,#f0703f 100%);
+  box-shadow:0 0 18px 6px rgba(255,170,90,.55),0 0 60px 18px rgba(255,150,70,.3);
+  position:relative;
+}
+.lan-body::after{content:"";position:absolute;left:50%;bottom:4px;width:10px;height:7px;margin-left:-5px;border-radius:50%;background:#fff6c2;box-shadow:0 0 8px 3px rgba(255,240,170,.9)}
+.lantern.mini{width:22px;height:28px}
+.lantern.mini .lan-body::after{width:5px;height:4px;margin-left:-2.5px;bottom:2px}
+.lan-tag{
+  position:absolute;top:100%;left:50%;transform:translateX(-50%);margin-top:8px;
+  white-space:nowrap;font-size:13px;padding:3px 10px;border-radius:12px;
+  background:var(--card);color:var(--ink);border:1px solid var(--card-line);
+}
+
+/* ---------- 页面 ---------- */
+.screen{
+  position:absolute;inset:0;z-index:2;
+  display:flex;flex-direction:column;align-items:center;text-align:center;
+  padding:clamp(120px,21vh,200px) 22px 112px;
+  overflow-y:auto;-webkit-overflow-scrolling:touch;
+  opacity:0;visibility:hidden;transform:translateY(14px);
+  transition:opacity .5s ease,transform .5s ease,visibility 0s linear .5s;
+}
+.screen.active{
+  opacity:1;visibility:visible;transform:none;
+  transition:opacity .6s ease .15s,transform .6s ease .15s,visibility 0s;
+}
+.inner{margin:auto 0;width:100%;max-width:420px}
+
+.title{font-family:var(--display);font-weight:400;font-size:clamp(26px,7.4vw,36px);line-height:1.4;margin:0 0 12px;letter-spacing:.02em}
+.title.sm{font-size:clamp(22px,6vw,28px)}
+.hint,.from{margin:0 0 20px;color:var(--ink-soft);font-size:15px;line-height:1.6}
+.from{margin-bottom:28px}
+
+.btn{
+  appearance:none;border:0;cursor:pointer;touch-action:manipulation;
+  font-family:var(--display);font-size:19px;letter-spacing:.04em;
+  color:var(--accent-ink);background:var(--accent);
+  padding:12px 30px;min-height:48px;border-radius:999px;
+  box-shadow:0 5px 0 var(--accent-deep),0 10px 24px rgba(160,60,90,.22);
+  transition:transform .12s ease,box-shadow .12s ease;
+}
+.btn:active{transform:translateY(3px);box-shadow:0 2px 0 var(--accent-deep),0 6px 14px rgba(160,60,90,.2)}
+.btn:disabled{cursor:default}
+.btn.ghost{background:var(--card);color:var(--ink);border:1.5px solid var(--card-line);box-shadow:0 4px 0 rgba(120,70,110,.16);font-size:17px;padding:10px 22px}
+.btn.ghost:active{box-shadow:0 1px 0 rgba(120,70,110,.16)}
+button:focus-visible,input:focus-visible{outline:3px solid var(--gold);outline-offset:4px}
+
+/* 邮戳 & 签收章 */
+.mark{position:relative;width:84px;height:84px;margin:0 auto 22px}
+.postmark{
+  position:absolute;inset:0;border:2px dashed var(--accent);border-radius:50%;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  color:var(--accent);font-family:var(--display);transform:rotate(-10deg);
+}
+.postmark span{font-size:24px;line-height:1}
+.postmark small{font-size:11px;margin-top:4px;letter-spacing:.06em}
+.stamp{
+  position:absolute;top:50%;left:50%;white-space:nowrap;pointer-events:none;
+  font-family:var(--display);font-size:22px;color:var(--accent);
+  border:3px solid var(--accent);border-radius:8px;padding:2px 10px;
+  transform:translate(-50%,-50%) rotate(14deg) scale(2.4);opacity:0;
+}
+.stamp.on{animation:stampIn .38s cubic-bezier(.2,.9,.3,1.4) forwards}
+@keyframes stampIn{to{transform:translate(-50%,-50%) rotate(14deg) scale(1);opacity:.92}}
+
+/* 月饼 */
+.cake-wrap{position:relative;width:clamp(170px,54vw,230px);aspect-ratio:1;margin:0 auto}
+.cake-btn{
+  position:absolute;inset:0;border:0;padding:0;background:none;cursor:pointer;border-radius:50%;
+  user-select:none;touch-action:manipulation;
+  filter:drop-shadow(0 12px 18px rgba(140,70,30,.25));
+}
+.cake-btn svg{display:block;width:100%;height:100%;transform-origin:50% 50%}
+.paper{
+  position:absolute;inset:0;margin:auto;width:96px;height:68px;border:0;cursor:pointer;
+  border-radius:6px;background:linear-gradient(135deg,#fffdf6,#ffeed6);
+  box-shadow:0 10px 22px rgba(120,60,40,.2);transform:rotate(-7deg);
+}
+.paper::before{content:"";position:absolute;left:10px;right:10px;top:50%;border-top:1px dashed rgba(168,95,36,.4)}
+.paper span{position:relative;font-size:24px}
+.dots{display:flex;gap:10px;justify-content:center;margin-top:16px}
+.dots i{width:9px;height:9px;border-radius:50%;border:1.5px solid var(--accent);transition:background .3s,transform .3s}
+.dots i.on{background:var(--accent);transform:scale(1.15)}
+.wish-line{min-height:3.6em;margin:14px auto 10px;max-width:16em;font-family:var(--display);font-size:18px;line-height:1.7}
+
+/* 小纸条 */
+.note{
+  position:relative;max-width:360px;margin:0 auto 26px;padding:36px 24px 22px;
+  background:var(--card);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);
+  border:1.5px solid var(--card-line);border-radius:24px;
+  box-shadow:0 14px 40px rgba(90,50,90,.14);
+}
+.note::before{
+  content:"";position:absolute;top:-12px;left:50%;width:96px;height:24px;border-radius:3px;
+  transform:translateX(-50%) rotate(-3deg);
+  background:repeating-linear-gradient(45deg,rgba(236,122,146,.6) 0 8px,rgba(255,255,255,.55) 8px 16px);
+}
+.note p{margin:0 0 14px;font-size:16px;line-height:1.9}
+.note .sign{margin:8px 0 0;text-align:right;color:var(--ink-soft);font-size:14px}
+
+/* 许愿 */
+.wish-form{display:flex;flex-direction:column;align-items:center;gap:16px;width:100%;max-width:340px;margin:0 auto}
+.wish-form input{
+  width:100%;font:inherit;font-size:16px;text-align:center;color:var(--ink);
+  background:var(--card);border:1.5px solid var(--card-line);border-radius:16px;padding:12px 14px;
+}
+.wish-form input::placeholder{color:var(--ink-soft);opacity:.75}
+.after{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+.tiny{margin:24px 0 0;font-size:13px;color:var(--ink-soft)}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);border:0}
+
+@media (prefers-reduced-motion: reduce){
+  .bunny,.ear-l,.ear-r,.star{animation:none}
+  .screen,.screen.active{transition:opacity .2s linear,visibility 0s}
+  .screen{transform:none}
+}
+</style>
+</head>
+<body>
+<div class="stage" id="stage">
+  <div class="stars" id="stars" aria-hidden="true"></div>
+  <div class="moon" id="moon" aria-hidden="true"></div>
+
+  <div class="bunny" id="bunny" aria-hidden="true">
+    <svg id="bunny-svg" viewBox="0 0 120 120">
+      <g class="ear ear-l"><ellipse cx="44" cy="34" rx="11" ry="28" fill="#fff" stroke="#ecd8e4" stroke-width="2"/><ellipse cx="44" cy="37" rx="5" ry="18" fill="#ffc2cf"/></g>
+      <g class="ear ear-r"><ellipse cx="76" cy="34" rx="11" ry="28" fill="#fff" stroke="#ecd8e4" stroke-width="2"/><ellipse cx="76" cy="37" rx="5" ry="18" fill="#ffc2cf"/></g>
+      <ellipse cx="60" cy="84" rx="40" ry="31" fill="#fff" stroke="#ecd8e4" stroke-width="2"/>
+      <g class="eyes-open">
+        <ellipse cx="46" cy="80" rx="3.6" ry="4.4" fill="#4b3550"/><ellipse cx="74" cy="80" rx="3.6" ry="4.4" fill="#4b3550"/>
+        <circle cx="47.2" cy="78.6" r="1.2" fill="#fff"/><circle cx="75.2" cy="78.6" r="1.2" fill="#fff"/>
+      </g>
+      <g class="eyes-happy" fill="none" stroke="#4b3550" stroke-width="2.6" stroke-linecap="round">
+        <path d="M41 82 q5 -6 10 0"/><path d="M69 82 q5 -6 10 0"/>
+      </g>
+      <ellipse cx="37" cy="90" rx="6.5" ry="4" fill="#ffb3c1" opacity=".85"/>
+      <ellipse cx="83" cy="90" rx="6.5" ry="4" fill="#ffb3c1" opacity=".85"/>
+      <path d="M55 88 q2.5 3 5 0 q2.5 3 5 0" fill="none" stroke="#4b3550" stroke-width="2" stroke-linecap="round"/>
+      <circle cx="60" cy="108" r="9" fill="#e7a24f" stroke="#b86f2c" stroke-width="1.5"/>
+      <ellipse cx="49" cy="106" rx="7" ry="5.5" fill="#fff" stroke="#ecd8e4" stroke-width="2"/>
+      <ellipse cx="71" cy="106" rx="7" ry="5.5" fill="#fff" stroke="#ecd8e4" stroke-width="2"/>
+    </svg>
+  </div>
+
+  <div class="fx fx-back" id="fx-back" aria-hidden="true"></div>
+
+  <!-- 1. 签收 -->
+  <section class="screen active" id="s-intro">
+    <div class="inner">
+      <div class="mark" aria-hidden="true">
+        <div class="postmark"><span>中秋</span><small>2026.9.25</small></div>
+        <div class="stamp" id="stamp">已签收</div>
+      </div>
+      <h1 class="title">叮咚～<br><span id="intro-to"></span>你有一份月光待签收</h1>
+      <p class="from">寄件人：<span data-from></span></p>
+      <button class="btn" id="btn-sign">签收一下</button>
+    </div>
+  </section>
+
+  <!-- 2. 咬月饼 -->
+  <section class="screen" id="s-cake">
+    <div class="inner">
+      <h2 class="title sm">给你留了一块月饼</h2>
+      <p class="hint" id="cake-hint">点一下月饼，咬一口试试</p>
+      <div class="cake-wrap">
+        <button class="cake-btn" id="cake" aria-label="咬一口月饼">
+          <svg id="cake-svg" viewBox="0 0 220 220" aria-hidden="true">
+            <defs>
+              <mask id="bite-mask" maskUnits="userSpaceOnUse" x="0" y="0" width="220" height="220">
+                <rect width="220" height="220" fill="#fff"/>
+                <g id="bite-holes"></g>
+              </mask>
+              <radialGradient id="cake-grad" cx="40%" cy="35%" r="72%">
+                <stop offset="0" stop-color="#f6c77c"/><stop offset="1" stop-color="#d98d3e"/>
+              </radialGradient>
+            </defs>
+            <g mask="url(#bite-mask)">
+              <path id="cake-edge" fill="url(#cake-grad)" stroke="#b86f2c" stroke-width="2.5" stroke-linejoin="round"/>
+              <circle cx="110" cy="110" r="64" fill="#f3b865" stroke="rgba(168,95,36,.5)" stroke-width="2"/>
+              <circle cx="110" cy="110" r="54" fill="none" stroke="rgba(168,95,36,.38)" stroke-width="2" stroke-dasharray="4 6"/>
+              <text x="110" y="122" text-anchor="middle" font-size="34" fill="#a85f24" style="font-family:var(--display)">中秋</text>
+              <ellipse cx="74" cy="66" rx="20" ry="8" fill="#fff" opacity=".22" transform="rotate(-32 74 66)"/>
+            </g>
+          </svg>
+        </button>
+        <button class="paper" id="paper" hidden aria-label="展开小纸条"><span aria-hidden="true">🌙</span></button>
+      </div>
+      <div class="dots" id="dots" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+      <p class="wish-line" id="wish-line" aria-live="polite"></p>
+      <button class="btn" id="btn-open" hidden>展开小纸条</button>
+    </div>
+  </section>
+
+  <!-- 3. 小纸条 -->
+  <section class="screen" id="s-note">
+    <div class="inner">
+      <article class="note">
+        <h2 class="title sm">中秋快乐呀</h2>
+        <p>今晚的月亮很圆，<br>想到你，就想来说一声。</p>
+        <p>不管最近过得怎么样，<br>都希望你好好吃饭、好好睡觉，<br>被喜欢的事和人包围着。</p>
+        <p>不用特地回我哦，<br>这份月光，收下就好啦。</p>
+        <p class="sign">—— <span data-from></span></p>
+      </article>
+      <button class="btn" id="btn-lantern">去放一盏孔明灯</button>
+    </div>
+  </section>
+
+  <!-- 4. 孔明灯 -->
+  <section class="screen" id="s-wish">
+    <div class="inner">
+      <h2 class="title sm" id="wish-title">写一个小心愿吧</h2>
+      <p class="hint" id="wish-sub">它会跟着孔明灯飞到月亮上，不写也可以</p>
+      <div class="wish-form" id="wish-form">
+        <label class="sr-only" for="wish">小心愿</label>
+        <input id="wish" maxlength="24" placeholder="比如：希望一切都顺顺利利" autocomplete="off" enterkeyhint="send">
+        <button class="btn" id="btn-fly">放飞孔明灯</button>
+      </div>
+      <div class="after" id="after" hidden>
+        <button class="btn ghost" id="btn-again">再放一盏</button>
+        <button class="btn ghost" id="btn-restart">从头再看一遍</button>
+      </div>
+      <p class="tiny">点点天空，也会飞起小灯笼哦</p>
+    </div>
+  </section>
+
+  <div class="fx fx-front" id="fx-front" aria-hidden="true"></div>
+</div>
+
+<script>
+(() => {
+  /* 想写名字就改这里 */
+  const CONFIG = { to: "", from: "月亮旁边的小兔子" };
+  try {
+    const q = new URLSearchParams(location.search);
+    if (q.get("to")) CONFIG.to = q.get("to").slice(0, 12);
+    if (q.get("from")) CONFIG.from = q.get("from").slice(0, 16);
+  } catch (e) {}
+
+  const $ = s => document.querySelector(s);
+  const reduce = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const stage = $("#stage"), fxBack = $("#fx-back"), fxFront = $("#fx-front");
+  const moon = $("#moon"), bunny = $("#bunny"), bunnySvg = $("#bunny-svg");
+
+  document.querySelectorAll("[data-from]").forEach(el => (el.textContent = CONFIG.from));
+  if (CONFIG.to) $("#intro-to").textContent = CONFIG.to + "，";
+
+  /* 星星 */
+  const stars = $("#stars");
+  for (let i = 0; i < 46; i++) {
+    const s = document.createElement("i");
+    const size = (Math.random() * 2 + 1).toFixed(1);
+    s.className = "star";
+    s.style.cssText = `left:${Math.random() * 100}%;top:${Math.random() * 62}%;width:${size}px;height:${size}px;--d:${(Math.random() * 3 + 2).toFixed(2)}s;--delay:${(-Math.random() * 5).toFixed(2)}s`;
+    stars.appendChild(s);
+  }
+
+  /* 月饼花边 */
+  function scallop(cx, cy, R, n, r) {
+    let d = "";
+    for (let k = 0; k <= n; k++) {
+      const a = (k / n) * Math.PI * 2 - Math.PI / 2;
+      const x = (cx + R * Math.cos(a)).toFixed(2), y = (cy + R * Math.sin(a)).toFixed(2);
+      d += k === 0 ? `M${x} ${y}` : ` A${r} ${r} 0 0 1 ${x} ${y}`;
+    }
+    return d + " Z";
+  }
+  $("#cake-edge").setAttribute("d", scallop(110, 110, 84, 12, 23));
+
+  /* 小工具 */
+  let happyT;
+  function happy() {
+    bunny.classList.add("happy");
+    clearTimeout(happyT);
+    happyT = setTimeout(() => bunny.classList.remove("happy"), 1100);
+    if (!reduce) bunnySvg.animate(
+      [{ transform: "translateY(0)" }, { transform: "translateY(-14px)", offset: 0.4 }, { transform: "translateY(0)" }],
+      { duration: 420, easing: "ease-out" }
+    );
+  }
+  function go(id) {
+    document.querySelectorAll(".screen").forEach(s => s.classList.toggle("active", s.id === id));
+    $("#" + id).scrollTop = 0;
+  }
+  function crumbs(x, y, n = 8, spread = 60) {
+    const colors = ["#e7a24f", "#d98d3e", "#b86f2c", "#f3b865"];
+    for (let i = 0; i < n; i++) {
+      const c = document.createElement("span");
+      const s = 3 + Math.random() * 5;
+      c.className = "crumb";
+      c.style.cssText = `width:${s}px;height:${s}px;left:${x - s / 2}px;top:${y - s / 2}px;background:${colors[i % 4]}`;
+      fxFront.appendChild(c);
+      const ang = Math.random() * Math.PI * 2, dist = spread * (0.4 + Math.random() * 0.8);
+      const dx = Math.cos(ang) * dist, dy = Math.sin(ang) * dist * 0.6 + 40;
+      const a = c.animate(
+        [{ transform: "translate(0,0)", opacity: 1 }, { transform: `translate(${dx}px,${dy}px)`, opacity: 0 }],
+        { duration: reduce ? 1 : 700 + Math.random() * 400, easing: "cubic-bezier(.2,.7,.4,1)", fill: "forwards" }
+      );
+      a.onfinish = () => c.remove();
+    }
+  }
+  function makeLantern(mini) {
+    const l = document.createElement("div");
+    l.className = "lantern" + (mini ? " mini" : "");
+    l.innerHTML = '<div class="lan-body"></div>';
+    return l;
+  }
+
+  /* 1. 签收 */
+  const signBtn = $("#btn-sign"), stamp = $("#stamp");
+  signBtn.addEventListener("click", () => {
+    if (signBtn.disabled) return;
+    signBtn.disabled = true;
+    stamp.classList.add("on");
+    happy();
+    setTimeout(() => go("s-cake"), reduce ? 300 : 950);
+  });
+
+  /* 2. 咬月饼 */
+  const LINES = [
+    "第一口甜甜的，祝你每天都有好心情",
+    "第二口软软的，祝你被这个世界温柔以待",
+    "第三口满满的，祝你的努力都有回响",
+    "最后一口圆圆的，祝你所愿皆所得"
+  ];
+  const HINTS = ["再咬一口？", "还剩一点点啦", "最后一口啦"];
+  const BITE_DEG = [-40, 35, 165];
+  const SVGNS = "http://www.w3.org/2000/svg";
+  const cake = $("#cake"), cakeSvg = $("#cake-svg"), holes = $("#bite-holes");
+  const hint = $("#cake-hint"), line = $("#wish-line"), paper = $("#paper"), openBtn = $("#btn-open");
+  const dots = [...document.querySelectorAll("#dots i")];
+  let bites = 0, busy = false, poof = null;
+
+  function toClient(sx, sy) {
+    const r = cakeSvg.getBoundingClientRect();
+    return [r.left + (sx / 220) * r.width, r.top + (sy / 220) * r.height];
+  }
+  function addBite(deg) {
+    const a = (deg * Math.PI) / 180;
+    [-0.27, 0, 0.27].forEach((o, i) => {
+      const D = i === 1 ? 104 : 100;
+      const c = document.createElementNS(SVGNS, "circle");
+      c.setAttribute("cx", (110 + D * Math.cos(a + o)).toFixed(2));
+      c.setAttribute("cy", (110 + D * Math.sin(a + o)).toFixed(2));
+      c.setAttribute("r", "25");
+      c.setAttribute("fill", "#000");
+      holes.appendChild(c);
+    });
+  }
+  function showLine(t) {
+    line.textContent = t;
+    if (!reduce) line.animate(
+      [{ opacity: 0, transform: "translateY(6px)" }, { opacity: 1, transform: "translateY(0)" }],
+      { duration: 450, easing: "ease-out" }
+    );
+  }
+
+  cake.addEventListener("click", () => {
+    if (busy || bites >= 4) return;
+    bites++;
+    dots[bites - 1].classList.add("on");
+    showLine(LINES[bites - 1]);
+    happy();
+    if (bites < 4) {
+      const deg = BITE_DEG[bites - 1], a = (deg * Math.PI) / 180;
+      addBite(deg);
+      const [x, y] = toClient(110 + 86 * Math.cos(a), 110 + 86 * Math.sin(a));
+      crumbs(x, y);
+      if (!reduce) cakeSvg.animate(
+        [{ transform: "scale(1)" }, { transform: "scale(.94) rotate(-3deg)" }, { transform: "scale(1)" }],
+        { duration: 260, easing: "ease-out" }
+      );
+      hint.textContent = HINTS[bites - 1];
+    } else {
+      busy = true;
+      hint.textContent = "嗷呜～吃光光啦";
+      setTimeout(() => {
+        const [x, y] = toClient(110, 110);
+        crumbs(x, y, 18, 110);
+        poof = cakeSvg.animate(
+          [
+            { transform: "scale(1) rotate(0deg)", opacity: 1 },
+            { transform: "scale(1.08) rotate(0deg)", opacity: 1, offset: 0.3 },
+            { transform: "scale(0) rotate(30deg)", opacity: 0 }
+          ],
+          { duration: reduce ? 1 : 600, easing: "ease-in", fill: "forwards" }
+        );
+        poof.onfinish = () => {
+          cake.hidden = true;
+          paper.hidden = false;
+          openBtn.hidden = false;
+          hint.textContent = "月饼里掉出来一张小纸条！";
+          if (!reduce) paper.animate(
+            [
+              { transform: "rotate(-7deg) scale(0)", opacity: 0 },
+              { transform: "rotate(-12deg) scale(1.15)", opacity: 1, offset: 0.6 },
+              { transform: "rotate(-7deg) scale(1)", opacity: 1 }
+            ],
+            { duration: 520, easing: "ease-out" }
+          );
+          busy = false;
+        };
+      }, reduce ? 600 : 1500);
+    }
+  });
+  paper.addEventListener("click", () => go("s-note"));
+  openBtn.addEventListener("click", () => go("s-note"));
+
+  /* 3 → 4 */
+  $("#btn-lantern").addEventListener("click", () => go("s-wish"));
+
+  /* 4. 孔明灯 */
+  const input = $("#wish"), form = $("#wish-form"), after = $("#after");
+  const wishTitle = $("#wish-title"), wishSub = $("#wish-sub");
+  const DEFAULT_SUB = "它会跟着孔明灯飞到月亮上，不写也可以";
+
+  function flyLantern(x0, y0, wish) {
+    const m = moon.getBoundingClientRect();
+    const x1 = m.left + m.width / 2, y1 = m.top + m.height / 2;
+    const l = makeLantern(false);
+    if (wish) {
+      const t = document.createElement("span");
+      t.className = "lan-tag";
+      t.textContent = wish;
+      l.appendChild(t);
+    }
+    l.style.left = x0 - 22 + "px";
+    l.style.top = y0 - 60 + "px";
+    fxFront.appendChild(l);
+    const dx = x1 - x0, dy = y1 - (y0 - 32);
+    const a = l.animate(
+      [
+        { transform: "translate(0px,0px) scale(1)", opacity: 0 },
+        { transform: `translate(${dx * 0.1 + 12}px,${dy * 0.2}px) scale(1)`, opacity: 1, offset: 0.12 },
+        { transform: `translate(${dx * 0.35 - 14}px,${dy * 0.45}px) scale(.85)`, opacity: 1, offset: 0.4 },
+        { transform: `translate(${dx * 0.7 + 10}px,${dy * 0.75}px) scale(.6)`, opacity: 1, offset: 0.7 },
+        { transform: `translate(${dx}px,${dy}px) scale(.25)`, opacity: 0 }
+      ],
+      { duration: reduce ? 800 : 5200, easing: "cubic-bezier(.35,.1,.4,1)", fill: "forwards" }
+    );
+    a.onfinish = () => l.remove();
+    setTimeout(() => {
+      moon.classList.add("glow");
+      happy();
+      setTimeout(() => moon.classList.remove("glow"), 2600);
+    }, reduce ? 600 : 4400);
+  }
+
+  $("#btn-fly").addEventListener("click", e => {
+    const wish = input.value.trim();
+    const r = e.currentTarget.getBoundingClientRect();
+    flyLantern(r.left + r.width / 2, r.top, wish);
+    input.value = "";
+    input.blur();
+    form.hidden = true;
+    after.hidden = false;
+    wishTitle.textContent = "孔明灯放飞啦";
+    wishSub.textContent = wish ? "你的心愿正在飞向月亮，小兔子会帮你好好保管的" : "它正带着今晚的好运气，飞向月亮";
+  });
+  input.addEventListener("keydown", e => {
+    if (e.key === "Enter" && !e.isComposing) { e.preventDefault(); $("#btn-fly").click(); }
+  });
+  $("#btn-again").addEventListener("click", () => {
+    form.hidden = false;
+    after.hidden = true;
+    wishTitle.textContent = "再写一个小心愿吧";
+    wishSub.textContent = DEFAULT_SUB;
+  });
+  $("#btn-restart").addEventListener("click", () => {
+    bites = 0; busy = false;
+    holes.innerHTML = "";
+    dots.forEach(d => d.classList.remove("on"));
+    line.textContent = "";
+    hint.textContent = "点一下月饼，咬一口试试";
+    if (poof) { poof.cancel(); poof = null; }
+    cake.hidden = false; paper.hidden = true; openBtn.hidden = true;
+    stamp.classList.remove("on"); signBtn.disabled = false;
+    form.hidden = false; after.hidden = true;
+    wishTitle.textContent = "写一个小心愿吧";
+    wishSub.textContent = DEFAULT_SUB;
+    go("s-intro");
+  });
+
+  /* 点天空放小灯笼 */
+  let minis = 0;
+  stage.addEventListener("click", e => {
+    if (e.target.closest("button,input,label,.note")) return;
+    if (minis > 24) return;
+    minis++;
+    const l = makeLantern(true);
+    l.style.left = e.clientX - 11 + "px";
+    l.style.top = e.clientY - 14 + "px";
+    fxBack.appendChild(l);
+    const up = 220 + Math.random() * 160, sway = (Math.random() - 0.5) * 60;
+    const a = l.animate(
+      [
+        { transform: "translate(0px,0px) scale(.6)", opacity: 0 },
+        { transform: `translate(${sway * 0.3}px,${-up * 0.25}px) scale(1)`, opacity: 1, offset: 0.2 },
+        { transform: `translate(${-sway * 0.4}px,${-up * 0.6}px) scale(.9)`, opacity: 0.9, offset: 0.6 },
+        { transform: `translate(${sway}px,${-up}px) scale(.7)`, opacity: 0 }
+      ],
+      { duration: reduce ? 600 : 3600 + Math.random() * 1200, easing: "ease-out", fill: "forwards" }
+    );
+    a.onfinish = () => { l.remove(); minis--; };
+  });
+
+  /* 飘落的桂花 */
+  if (!reduce) {
+    let petals = 0;
+    setInterval(() => {
+      if (document.hidden || petals > 12) return;
+      petals++;
+      const p = document.createElement("span");
+      p.className = "petal";
+      p.textContent = "✿";
+      p.style.fontSize = 9 + Math.random() * 8 + "px";
+      p.style.left = Math.random() * 100 + "%";
+      fxBack.appendChild(p);
+      const H = window.innerHeight + 40, drift = (Math.random() - 0.5) * 120;
+      const a = p.animate(
+        [
+          { transform: "translate(0px,-20px) rotate(0deg)", opacity: 0 },
+          { transform: `translate(${drift * 0.1}px,${H * 0.1}px) rotate(30deg)`, opacity: 0.9, offset: 0.1 },
+          { transform: `translate(${drift * 0.5}px,${H * 0.5}px) rotate(160deg)`, opacity: 0.9, offset: 0.5 },
+          { transform: `translate(${drift}px,${H}px) rotate(320deg)`, opacity: 0 }
+        ],
+        { duration: 9000 + Math.random() * 6000, easing: "linear" }
+      );
+      a.onfinish = () => { p.remove(); petals--; };
+    }, 1500);
+  }
+})();
+</script>
+</body>
+</html>
