@@ -21,6 +21,7 @@
   --accent:#d65573; --accent-deep:#a93d58; --accent-ink:#fff;
   --gold:#f2b93b;
   --star-o:.5;
+  --sheet:#fff8f5;
   --display:"ZCOOL KuaiLe","PingFang SC","Hiragino Sans GB","Microsoft YaHei","Noto Sans SC",sans-serif;
   --body:"PingFang SC","Hiragino Sans GB","Microsoft YaHei","Noto Sans SC",system-ui,sans-serif;
 }
@@ -32,6 +33,7 @@
     --card:rgba(34,28,72,.62); --card-line:rgba(255,255,255,.16);
     --accent:#e0607f; --accent-deep:#9e3552; --accent-ink:#fff;
     --star-o:1;
+    --sheet:#2a2458;
   }
 }
 :root[data-theme="dark"]{
@@ -41,6 +43,7 @@
   --card:rgba(34,28,72,.62); --card-line:rgba(255,255,255,.16);
   --accent:#e0607f; --accent-deep:#9e3552; --accent-ink:#fff;
   --star-o:1;
+  --sheet:#2a2458;
 }
 *,*::before,*::after{box-sizing:inherit}
 [hidden]{display:none !important}
@@ -210,8 +213,80 @@ button:focus-visible,input:focus-visible{outline:3px solid var(--gold);outline-o
 .tiny{margin:24px 0 0;font-size:13px;color:var(--ink-soft)}
 .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);border:0}
 
+
+/* 回访 */
+.keep{margin:-16px 0 26px;color:var(--ink-soft);font-size:15px;line-height:1.6}
+.keep b{font-weight:400;font-family:var(--display);color:var(--accent);font-size:19px;margin:0 2px}
+.link{
+  appearance:none;border:0;background:none;cursor:pointer;touch-action:manipulation;
+  display:block;margin:14px auto 0;padding:8px 6px;font:inherit;font-size:14px;color:var(--ink-soft);
+  text-decoration:underline;text-underline-offset:4px;text-decoration-color:rgba(140,100,145,.45);
+}
+
+/* 许愿方式 */
+.mode{display:flex;gap:4px;padding:4px;border-radius:999px;background:var(--card);border:1.5px solid var(--card-line)}
+.mode button{
+  appearance:none;border:0;cursor:pointer;touch-action:manipulation;
+  font-family:var(--display);font-size:16px;padding:8px 18px;border-radius:999px;
+  background:transparent;color:var(--ink-soft);transition:background .2s,color .2s;
+}
+.mode button[aria-checked="true"]{background:var(--accent);color:var(--accent-ink)}
+.mode-note{margin:-6px 0 2px;font-size:13px;line-height:1.6;color:var(--ink-soft);max-width:20em}
+
+/* 取件码 */
+.code-card{margin:18px auto 0;max-width:320px;padding:16px 18px 14px;border-radius:18px;background:var(--card);border:1.5px dashed var(--accent)}
+.code-card p{margin:0;font-size:14px;color:var(--ink-soft)}
+.code-num{display:block;margin:6px 0 12px;font-family:var(--display);font-size:26px;letter-spacing:.06em;color:var(--ink);-webkit-user-select:all;user-select:all}
+.code-card small{display:block;margin-top:12px;font-size:12.5px;line-height:1.6;color:var(--ink-soft)}
+.code-actions{display:flex;gap:10px;justify-content:center}
+.btn.sm{font-size:15px;padding:6px 18px;min-height:38px}
+.recover{display:flex;flex-direction:column;align-items:center;gap:12px;margin:14px auto 0;max-width:300px}
+.recover input{
+  width:100%;font:inherit;font-size:18px;letter-spacing:.08em;text-align:center;color:var(--ink);
+  background:var(--card);border:1.5px solid var(--card-line);border-radius:16px;padding:10px 14px;
+}
+.msg{margin:10px 0 0;font-size:13px;line-height:1.6;color:var(--ink-soft)}
+
+/* 月亮旁边挂着的灯 */
+.hang-layer{
+  position:fixed;inset:0;z-index:3;pointer-events:none;
+  opacity:0;visibility:hidden;transition:opacity .6s ease,visibility 0s linear .6s;
+}
+.hang-layer.show{opacity:1;visibility:visible;transition:opacity .6s ease .2s,visibility 0s}
+.hang{
+  position:absolute;width:40px;height:52px;margin:-30px 0 0 -20px;padding:0;border:0;background:none;
+  cursor:pointer;pointer-events:auto;touch-action:manipulation;transform-origin:50% 0;
+  animation:sway var(--sd,4s) ease-in-out var(--sdl,0s) infinite;
+  transition:left .7s ease,top .7s ease;
+}
+.hang::before{content:"";position:absolute;left:50%;top:0;width:1px;height:14px;background:rgba(255,226,170,.85)}
+.hang .lan-body{position:absolute;display:block;left:7px;top:14px;width:26px;height:33px}
+.hang .lan-body::after{width:6px;height:4px;margin-left:-3px;bottom:3px}
+.hang.pop{animation:hangIn .5s ease-out,sway var(--sd,4s) ease-in-out .5s infinite}
+@keyframes sway{0%,100%{transform:rotate(-4deg)}50%{transform:rotate(4deg)}}
+@keyframes hangIn{from{opacity:0;transform:scale(.6)}to{opacity:1;transform:rotate(-4deg)}}
+.bubble{
+  position:fixed;z-index:5;width:max-content;max-width:min(240px,76vw);padding:10px 14px;border-radius:14px;
+  background:var(--card);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);
+  border:1.5px solid var(--card-line);color:var(--ink);font-size:15px;line-height:1.6;text-align:left;
+  box-shadow:0 10px 26px rgba(90,50,90,.18);word-break:break-word;
+}
+.bubble small{display:block;margin-top:4px;font-size:12px;color:var(--ink-soft)}
+#s-wish.has-hang{padding-top:clamp(210px,33vh,300px)}
+
+/* 心愿小册 */
+.sheet-wrap{position:fixed;inset:0;z-index:6;display:flex;align-items:center;justify-content:center;padding:24px;background:rgba(40,22,52,.4)}
+.sheet{
+  width:100%;max-width:360px;max-height:72%;overflow-y:auto;padding:24px 20px 18px;border-radius:22px;
+  background:var(--sheet);color:var(--ink);text-align:center;box-shadow:0 20px 50px rgba(40,20,50,.3);
+}
+.sheet ol{list-style:none;margin:6px 0 18px;padding:0;text-align:left}
+.sheet li{padding:10px 2px;border-bottom:1px dashed rgba(168,95,120,.3);font-size:15px;line-height:1.6;word-break:break-word}
+.sheet li:last-child{border-bottom:0}
+.sheet li small{display:block;font-size:12px;color:var(--ink-soft)}
+
 @media (prefers-reduced-motion: reduce){
-  .bunny,.ear-l,.ear-r,.star{animation:none}
+  .bunny,.ear-l,.ear-r,.star,.hang,.hang.pop{animation:none}
   .screen,.screen.active{transition:opacity .2s linear,visibility 0s}
   .screen{transform:none}
 }
@@ -249,12 +324,14 @@ button:focus-visible,input:focus-visible{outline:3px solid var(--gold);outline-o
   <section class="screen active" id="s-intro">
     <div class="inner">
       <div class="mark" aria-hidden="true">
-        <div class="postmark"><span>中秋</span><small>2026.9.25</small></div>
+        <div class="postmark"><span>中秋</span><small id="pm-small">2026.9.25</small></div>
         <div class="stamp" id="stamp">已签收</div>
       </div>
       <h1 class="title">叮咚～<br><span id="intro-to"></span>你有一份月光待签收</h1>
       <p class="from">寄件人：<span data-from></span></p>
+      <p class="keep" id="keep" hidden>小兔子还替你保管着<b id="keep-n">0</b>个心愿</p>
       <button class="btn" id="btn-sign">签收一下</button>
+      <button class="link" id="btn-skip" hidden>直接去看心愿</button>
     </div>
   </section>
 
@@ -314,15 +391,49 @@ button:focus-visible,input:focus-visible{outline:3px solid var(--gold);outline-o
       <div class="wish-form" id="wish-form">
         <label class="sr-only" for="wish">小心愿</label>
         <input id="wish" maxlength="24" placeholder="比如：希望一切都顺顺利利" autocomplete="off" enterkeyhint="send">
+        <div class="mode" id="mode" role="radiogroup" aria-label="心愿存放方式">
+          <button type="button" role="radio" aria-checked="true" data-mode="local">悄悄许愿</button>
+          <button type="button" role="radio" aria-checked="false" data-mode="cloud">寄到月亮</button>
+        </div>
+        <p class="mode-note" id="mode-note"></p>
         <button class="btn" id="btn-fly">放飞孔明灯</button>
       </div>
       <div class="after" id="after" hidden>
         <button class="btn ghost" id="btn-again">再放一盏</button>
         <button class="btn ghost" id="btn-restart">从头再看一遍</button>
       </div>
+      <p class="msg" id="up-note" hidden></p>
+      <div class="code-card" id="code-card" hidden>
+        <p>你的心愿取件码</p>
+        <strong class="code-num" id="code-num"></strong>
+        <div class="code-actions">
+          <button class="btn ghost sm" id="btn-copy">复制</button>
+          <button class="btn ghost sm" id="btn-code-hide">收起</button>
+        </div>
+        <small>换手机时输入它，就能找回「寄到月亮」的心愿，像密码一样收好哦</small>
+      </div>
+      <button class="link" id="btn-book" hidden></button>
+      <button class="link" id="btn-mycode" hidden>我的取件码</button>
+      <button class="link" id="btn-recover" hidden>换手机了？输入取件码，找回之前的心愿</button>
+      <div class="recover" id="recover" hidden>
+        <label class="sr-only" for="code-input">心愿取件码</label>
+        <input id="code-input" inputmode="numeric" autocomplete="off" maxlength="14" placeholder="12 位数字取件码">
+        <button class="btn ghost sm" id="btn-fetch">找回心愿</button>
+      </div>
+      <p class="msg" id="recover-msg" hidden></p>
+      <p class="msg" id="net-note" hidden>月亮这会儿信号不太好，先看这台手机上的心愿</p>
       <p class="tiny">点点天空，也会飞起小灯笼哦</p>
     </div>
   </section>
+
+  <div class="hang-layer" id="hang-layer"></div>
+  <div class="sheet-wrap" id="sheet" hidden>
+    <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="sheet-title">
+      <h3 class="title sm" id="sheet-title">心愿小册</h3>
+      <ol id="sheet-list"></ol>
+      <button class="btn ghost sm" id="btn-sheet-close">合上小册</button>
+    </div>
+  </div>
 
   <div class="fx fx-front" id="fx-front" aria-hidden="true"></div>
 </div>
@@ -331,6 +442,17 @@ button:focus-visible,input:focus-visible{outline:3px solid var(--gold);outline-o
 (() => {
   /* 想写名字就改这里 */
   const CONFIG = { to: "", from: "月亮旁边的小兔子" };
+  /* Supabase（公开密钥，本来就会出现在网页里；数据安全靠数据库里的函数和权限） */
+  const SUPA = {
+    url: "https://dpbinyldftwdwwwwxqby.supabase.co",
+    keys: [
+      "sb_publishable_ZhOItXRiaKmkLZMCYwvwlw_XtpMxCgH",
+      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRwYmlueWxkZnR3ZHd3d3d4cWJ5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODI2MjI3MDQsImV4cCI6MjA5ODE5ODcwNH0.A6lN75ayzIZ7PyP4dYP3J-yCAyq-UjpdnYyoS1gDRF4"
+    ]
+  };
+  const CLOUD = /^https:\/\//.test(SUPA.url) && SUPA.keys.length > 0;
+  let keyIdx = 0;
+
   try {
     const q = new URLSearchParams(location.search);
     if (q.get("to")) CONFIG.to = q.get("to").slice(0, 12);
@@ -344,6 +466,104 @@ button:focus-visible,input:focus-visible{outline:3px solid var(--gold);outline-o
 
   document.querySelectorAll("[data-from]").forEach(el => (el.textContent = CONFIG.from));
   if (CONFIG.to) $("#intro-to").textContent = CONFIG.to + "，";
+
+  /* ---------- 本地存储（只在这台手机里） ---------- */
+  const KEY = "moon-rabbit-post:v1";
+  const fresh = () => ({ v: 1, signed: 0, code: null, wishes: [], lastLines: null, mode: "local", showCode: false });
+  function load() {
+    try {
+      const raw = JSON.parse(localStorage.getItem(KEY) || "null");
+      if (raw && typeof raw === "object") {
+        const st = Object.assign(fresh(), raw);
+        st.wishes = Array.isArray(st.wishes)
+          ? st.wishes.filter(w => w && typeof w.content === "string" && w.content && typeof w.lid === "string")
+          : [];
+        if (st.code && !/^\d{12}$/.test(st.code)) st.code = null;
+        if (st.mode !== "cloud") st.mode = "local";
+        return st;
+      }
+    } catch (e) {}
+    return fresh();
+  }
+  const state = load();
+  function save() {
+    try { localStorage.setItem(KEY, JSON.stringify(state)); } catch (e) {}
+  }
+  const time = w => Date.parse(w.at) || 0;
+  const newestFirst = () => [...state.wishes].sort((a, b) => time(b) - time(a));
+  const fmtDate = iso => {
+    const d = new Date(iso);
+    return isNaN(d) ? "" : `${d.getFullYear()}.${d.getMonth() + 1}.${d.getDate()}`;
+  };
+  const fmtCode = c => (c || "").replace(/(\d{4})(?=\d)/g, "$1-");
+
+  /* ---------- 和月亮（Supabase）通信 ---------- */
+  async function rpc(fn, args) {
+    if (!CLOUD) throw new Error("no_cloud");
+    for (;;) {
+      const key = SUPA.keys[keyIdx];
+      const ctrl = new AbortController();
+      const timer = setTimeout(() => ctrl.abort(), 9000);
+      const headers = { "Content-Type": "application/json", apikey: key };
+      if (!key.startsWith("sb_")) headers.Authorization = "Bearer " + key;
+      let r;
+      try {
+        r = await fetch(`${SUPA.url}/rest/v1/rpc/${fn}`, {
+          method: "POST", headers, body: JSON.stringify(args || {}), signal: ctrl.signal
+        });
+      } finally {
+        clearTimeout(timer);
+      }
+      if ((r.status === 401 || r.status === 403) && keyIdx < SUPA.keys.length - 1) { keyIdx++; continue; }
+      if (!r.ok) throw new Error("http_" + r.status);
+      const data = await r.json();
+      if (!data || typeof data !== "object") throw new Error("bad_response");
+      return data;
+    }
+  }
+  let codeJob = null;
+  function ensureCode() {
+    if (state.code) return Promise.resolve(state.code);
+    if (!codeJob) {
+      codeJob = rpc("mrp_create_box").then(res => {
+        if (!res.ok || !/^\d{12}$/.test(res.code || "")) throw new Error(res.error || "create_failed");
+        state.code = res.code;
+        state.showCode = true;
+        save();
+        return res.code;
+      }).finally(() => { codeJob = null; });
+    }
+    return codeJob;
+  }
+  let flushing = null;
+  function flush() {
+    if (!flushing) {
+      flushing = (async () => {
+        const pending = state.wishes.filter(w => !w.priv && !w.sid);
+        if (!pending.length) return true;
+        await ensureCode();
+        for (const w of pending) {
+          const res = await rpc("mrp_add_wish", { p_code: state.code, p_content: w.content });
+          if (res.ok && res.wish) { w.sid = res.wish.id; save(); }
+          else if (res.error === "invalid_content") { w.priv = true; save(); }
+          else return false;
+        }
+        return true;
+      })().finally(() => { flushing = null; });
+    }
+    return flushing;
+  }
+  function merge(list) {
+    const known = new Set(state.wishes.filter(w => w.sid != null).map(w => String(w.sid)));
+    let added = 0;
+    (list || []).forEach(s => {
+      if (!s || known.has(String(s.id)) || typeof s.content !== "string") return;
+      state.wishes.push({ lid: "s" + s.id, sid: s.id, content: s.content, at: s.created_at, priv: false });
+      added++;
+    });
+    if (added) save();
+    return added;
+  }
 
   /* 星星 */
   const stars = $("#stars");
@@ -378,9 +598,13 @@ button:focus-visible,input:focus-visible{outline:3px solid var(--gold);outline-o
       { duration: 420, easing: "ease-out" }
     );
   }
+  const hangLayer = $("#hang-layer");
   function go(id) {
     document.querySelectorAll(".screen").forEach(s => s.classList.toggle("active", s.id === id));
     $("#" + id).scrollTop = 0;
+    closeBubble();
+    if (id === "s-wish") enterWish();
+    hangLayer.classList.toggle("show", id === "s-wish");
   }
   function crumbs(x, y, n = 8, spread = 60) {
     const colors = ["#e7a24f", "#d98d3e", "#b86f2c", "#f3b865"];
@@ -406,23 +630,65 @@ button:focus-visible,input:focus-visible{outline:3px solid var(--gold);outline-o
     return l;
   }
 
-  /* 1. 签收 */
+  /* ---------- 1. 签收 ---------- */
   const signBtn = $("#btn-sign"), stamp = $("#stamp");
+  const keepEl = $("#keep"), keepN = $("#keep-n"), skipBtn = $("#btn-skip");
+  function renderIntro() {
+    $("#pm-small").textContent = state.signed === 0 ? "2026.9.25" : `第${state.signed + 1}次签收`;
+    const n = state.wishes.length;
+    keepN.textContent = n;
+    keepEl.hidden = n === 0;
+    skipBtn.hidden = state.signed === 0;
+  }
   signBtn.addEventListener("click", () => {
     if (signBtn.disabled) return;
     signBtn.disabled = true;
+    pickLines(state.signed === 0);
+    state.signed += 1;
+    save();
     stamp.classList.add("on");
     happy();
     setTimeout(() => go("s-cake"), reduce ? 300 : 950);
   });
+  skipBtn.addEventListener("click", () => go("s-wish"));
 
-  /* 2. 咬月饼 */
-  const LINES = [
-    "第一口甜甜的，祝你每天都有好心情",
-    "第二口软软的，祝你被这个世界温柔以待",
-    "第三口满满的，祝你的努力都有回响",
-    "最后一口圆圆的，祝你所愿皆所得"
+  /* ---------- 2. 咬月饼 ---------- */
+  const PREFIX = ["第一口甜甜的", "第二口软软的", "第三口满满的", "最后一口圆圆的"];
+  const BLESS = [
+    "祝你每天都有好心情",
+    "祝你被这个世界温柔以待",
+    "祝你的努力都有回响",
+    "祝你所愿皆所得",
+    "祝你的烦恼都像月饼渣一样被风吹走",
+    "祝你被好运偷偷跟着",
+    "祝你睡个好觉，做个甜甜的梦",
+    "祝你遇到的难题都有答案",
+    "祝你心里一直亮着一盏灯",
+    "祝你每次抬头都有好天气",
+    "祝你今天也被好好照顾着",
+    "祝你的小心愿一个个实现",
+    "祝你平平安安，健健康康",
+    "祝你走过的路都算数",
+    "祝你吃到的每一口都是喜欢的味道",
+    "祝你熬过的夜都变成星星"
   ];
+  let lines = PREFIX.map((p, i) => p + "，" + BLESS[i]);
+  function pickLines(first) {
+    let idx;
+    if (first) idx = [0, 1, 2, 3];
+    else {
+      const last = new Set(state.lastLines || []);
+      let pool = BLESS.map((_, i) => i).filter(i => !last.has(i));
+      if (pool.length < 4) pool = BLESS.map((_, i) => i);
+      for (let i = pool.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [pool[i], pool[j]] = [pool[j], pool[i]];
+      }
+      idx = pool.slice(0, 4);
+    }
+    state.lastLines = idx;
+    lines = idx.map((b, i) => PREFIX[i] + "，" + BLESS[b]);
+  }
   const HINTS = ["再咬一口？", "还剩一点点啦", "最后一口啦"];
   const BITE_DEG = [-40, 35, 165];
   const SVGNS = "http://www.w3.org/2000/svg";
@@ -459,7 +725,7 @@ button:focus-visible,input:focus-visible{outline:3px solid var(--gold);outline-o
     if (busy || bites >= 4) return;
     bites++;
     dots[bites - 1].classList.add("on");
-    showLine(LINES[bites - 1]);
+    showLine(lines[bites - 1]);
     happy();
     if (bites < 4) {
       const deg = BITE_DEG[bites - 1], a = (deg * Math.PI) / 180;
@@ -506,17 +772,161 @@ button:focus-visible,input:focus-visible{outline:3px solid var(--gold);outline-o
   paper.addEventListener("click", () => go("s-note"));
   openBtn.addEventListener("click", () => go("s-note"));
 
-  /* 3 → 4 */
+  /* ---------- 3 → 4 ---------- */
   $("#btn-lantern").addEventListener("click", () => go("s-wish"));
 
-  /* 4. 孔明灯 */
+  /* ---------- 4. 孔明灯 ---------- */
+  const sWish = $("#s-wish");
   const input = $("#wish"), form = $("#wish-form"), after = $("#after");
   const wishTitle = $("#wish-title"), wishSub = $("#wish-sub");
+  const modeWrap = $("#mode"), modeNote = $("#mode-note");
+  const modeBtns = [...modeWrap.querySelectorAll("button")];
+  const upNote = $("#up-note"), codeCard = $("#code-card"), codeNum = $("#code-num");
+  const bookBtn = $("#btn-book"), mycodeBtn = $("#btn-mycode"), recoverBtn = $("#btn-recover");
+  const recoverBox = $("#recover"), codeInput = $("#code-input"), fetchBtn = $("#btn-fetch");
+  const recoverMsg = $("#recover-msg"), netNote = $("#net-note");
   const DEFAULT_SUB = "它会跟着孔明灯飞到月亮上，不写也可以";
+  const MODE_NOTE = {
+    local: "只存在这台手机里，换手机就找不回啦",
+    cloud: "换手机也能用取件码找回；送你这份月光的人也能看到哦"
+  };
+  let syncFailed = false;
 
-  function flyLantern(x0, y0, wish) {
-    const m = moon.getBoundingClientRect();
-    const x1 = m.left + m.width / 2, y1 = m.top + m.height / 2;
+  function setMode(m) {
+    state.mode = m === "cloud" && CLOUD ? "cloud" : "local";
+    save();
+    modeBtns.forEach(b => b.setAttribute("aria-checked", String(b.dataset.mode === state.mode)));
+    modeNote.textContent = MODE_NOTE[state.mode];
+  }
+  modeBtns.forEach(b => b.addEventListener("click", () => setMode(b.dataset.mode)));
+  modeWrap.hidden = !CLOUD;
+  setMode(state.mode);
+
+  /* 月亮旁边的灯位 */
+  const SLOTS = [[100, 1.75], [130, 1.7], [160, 1.7], [190, 1.75], [112, 2.55], [142, 2.5], [172, 2.55], [200, 2.6]];
+  function moonCenter() {
+    const s = stage.getBoundingClientRect();
+    const R = moon.offsetWidth / 2;
+    return { x: s.left + moon.offsetLeft + R, y: s.top + moon.offsetTop + R, R };
+  }
+  function slotPos(i) {
+    const m = moonCenter();
+    const [deg, f] = SLOTS[i];
+    const a = (deg * Math.PI) / 180;
+    return [m.x + Math.cos(a) * m.R * f, m.y + Math.sin(a) * m.R * f];
+  }
+  const hangEls = new Map();
+  const landing = new Set();
+  function renderHang() {
+    const list = newestFirst().slice(0, SLOTS.length);
+    const keep = new Set();
+    list.forEach((w, i) => {
+      if (landing.has(w.lid)) return;
+      keep.add(w.lid);
+      const [x, y] = slotPos(i);
+      let el = hangEls.get(w.lid);
+      if (!el) {
+        el = document.createElement("button");
+        el.type = "button";
+        el.className = "hang";
+        el.innerHTML = '<span class="lan-body"></span>';
+        el.setAttribute("aria-label", "心愿：" + w.content);
+        el.style.setProperty("--sd", (3.4 + Math.random() * 1.6).toFixed(2) + "s");
+        el.style.setProperty("--sdl", (-Math.random() * 3).toFixed(2) + "s");
+        el.addEventListener("click", ev => { ev.stopPropagation(); showBubble(w, el); });
+        el.style.left = x + "px";
+        el.style.top = y + "px";
+        hangLayer.appendChild(el);
+        hangEls.set(w.lid, el);
+      } else {
+        el.style.left = x + "px";
+        el.style.top = y + "px";
+      }
+    });
+    for (const [lid, el] of hangEls) {
+      if (!keep.has(lid)) { el.remove(); hangEls.delete(lid); }
+    }
+  }
+  window.addEventListener("resize", () => { closeBubble(); renderHang(); });
+
+  let bubble = null;
+  function closeBubble() { if (bubble) { bubble.remove(); bubble = null; } }
+  function showBubble(w, el) {
+    closeBubble();
+    const b = document.createElement("div");
+    b.className = "bubble";
+    b.setAttribute("role", "status");
+    const t = document.createElement("div");
+    t.textContent = w.content;
+    const s = document.createElement("small");
+    let meta = fmtDate(w.at);
+    if (w.priv) meta += "（只在这台手机上）";
+    else if (w.sid == null) meta += "（还没寄到月亮，稍后自动补寄）";
+    s.textContent = meta;
+    b.append(t, s);
+    stage.appendChild(b);
+    const r = el.getBoundingClientRect();
+    const bw = b.offsetWidth, bh = b.offsetHeight;
+    let left = r.left + r.width / 2 - bw / 2;
+    left = Math.max(10, Math.min(left, window.innerWidth - bw - 10));
+    let top = r.bottom + 6;
+    if (top + bh > window.innerHeight - 10) top = r.top - bh - 6;
+    b.style.left = left + "px";
+    b.style.top = Math.max(10, top) + "px";
+    bubble = b;
+  }
+
+  function renderWish() {
+    const n = state.wishes.length;
+    sWish.classList.toggle("has-hang", n > 0);
+    bookBtn.hidden = n <= SLOTS.length;
+    bookBtn.textContent = `翻翻心愿小册（一共 ${n} 个）`;
+    mycodeBtn.hidden = !state.code || !codeCard.hidden;
+    recoverBtn.hidden = !CLOUD || !!state.code || !recoverBox.hidden;
+    netNote.hidden = !(state.code && syncFailed);
+    renderHang();
+  }
+  function setWishHeading() {
+    const n = state.wishes.length;
+    if (n > 0) {
+      wishTitle.textContent = `小兔子还替你保管着 ${n} 个心愿`;
+      wishSub.textContent = "点点月亮旁边的灯，看看当时的愿望";
+    } else {
+      wishTitle.textContent = "写一个小心愿吧";
+      wishSub.textContent = DEFAULT_SUB;
+    }
+  }
+  function enterWish() {
+    if (!form.hidden) setWishHeading();
+    renderWish();
+    if (state.showCode && state.code) showCodeCard();
+  }
+  function showCodeCard() {
+    codeNum.textContent = fmtCode(state.code);
+    codeCard.hidden = false;
+    state.showCode = false;
+    save();
+    renderWish();
+  }
+  $("#btn-code-hide").addEventListener("click", () => { codeCard.hidden = true; renderWish(); });
+  mycodeBtn.addEventListener("click", showCodeCard);
+  $("#btn-copy").addEventListener("click", async e => {
+    const btn = e.currentTarget;
+    try {
+      await navigator.clipboard.writeText(fmtCode(state.code));
+      btn.textContent = "已复制";
+    } catch (err) {
+      const range = document.createRange();
+      range.selectNodeContents(codeNum);
+      const sel = window.getSelection();
+      sel.removeAllRanges();
+      sel.addRange(range);
+      btn.textContent = "长按数字复制";
+    }
+    setTimeout(() => (btn.textContent = "复制"), 2200);
+  });
+
+  function flyLantern(x0, y0, wish, target, done) {
     const l = makeLantern(false);
     if (wish) {
       const t = document.createElement("span");
@@ -527,18 +937,19 @@ button:focus-visible,input:focus-visible{outline:3px solid var(--gold);outline-o
     l.style.left = x0 - 22 + "px";
     l.style.top = y0 - 60 + "px";
     fxFront.appendChild(l);
-    const dx = x1 - x0, dy = y1 - (y0 - 32);
+    const dx = target.x - x0, dy = target.y - (y0 - 32);
+    const endOpacity = target.fade ? 0 : 1;
     const a = l.animate(
       [
         { transform: "translate(0px,0px) scale(1)", opacity: 0 },
         { transform: `translate(${dx * 0.1 + 12}px,${dy * 0.2}px) scale(1)`, opacity: 1, offset: 0.12 },
         { transform: `translate(${dx * 0.35 - 14}px,${dy * 0.45}px) scale(.85)`, opacity: 1, offset: 0.4 },
-        { transform: `translate(${dx * 0.7 + 10}px,${dy * 0.75}px) scale(.6)`, opacity: 1, offset: 0.7 },
-        { transform: `translate(${dx}px,${dy}px) scale(.25)`, opacity: 0 }
+        { transform: `translate(${dx * 0.7 + 10}px,${dy * 0.75}px) scale(${(0.85 + target.scale) / 2})`, opacity: 1, offset: 0.7 },
+        { transform: `translate(${dx}px,${dy}px) scale(${target.scale})`, opacity: endOpacity }
       ],
       { duration: reduce ? 800 : 5200, easing: "cubic-bezier(.35,.1,.4,1)", fill: "forwards" }
     );
-    a.onfinish = () => l.remove();
+    a.onfinish = () => { l.remove(); if (done) done(); };
     setTimeout(() => {
       moon.classList.add("glow");
       happy();
@@ -546,16 +957,55 @@ button:focus-visible,input:focus-visible{outline:3px solid var(--gold);outline-o
     }, reduce ? 600 : 4400);
   }
 
+  async function uploadNew() {
+    upNote.hidden = true;
+    try {
+      const ok = await flush();
+      if (!ok) throw new Error("partial");
+      if (state.showCode && state.code && sWish.classList.contains("active")) showCodeCard();
+    } catch (e) {
+      upNote.textContent = "这盏灯暂时没寄到月亮，下次打开会自动补寄";
+      upNote.hidden = false;
+    }
+    renderWish();
+  }
+
   $("#btn-fly").addEventListener("click", e => {
-    const wish = input.value.trim();
+    const text = input.value.trim();
     const r = e.currentTarget.getBoundingClientRect();
-    flyLantern(r.left + r.width / 2, r.top, wish);
+    const x0 = r.left + r.width / 2, y0 = r.top;
+    closeBubble();
+    if (text) {
+      const w = {
+        lid: "l" + Date.now().toString(36) + Math.random().toString(36).slice(2, 7),
+        sid: null, content: text, at: new Date().toISOString(),
+        priv: !(CLOUD && state.mode === "cloud")
+      };
+      state.wishes.push(w);
+      save();
+      landing.add(w.lid);
+      sWish.classList.add("has-hang");
+      renderHang();
+      const [tx, ty] = slotPos(0);
+      flyLantern(x0, y0, text, { x: tx, y: ty, scale: 26 / 44, fade: false }, () => {
+        landing.delete(w.lid);
+        renderHang();
+        const el = hangEls.get(w.lid);
+        if (el && !reduce) el.classList.add("pop");
+      });
+      if (!w.priv) uploadNew();
+    } else {
+      const m = moonCenter();
+      flyLantern(x0, y0, "", { x: m.x, y: m.y, scale: 0.25, fade: true });
+    }
     input.value = "";
     input.blur();
     form.hidden = true;
     after.hidden = false;
     wishTitle.textContent = "孔明灯放飞啦";
-    wishSub.textContent = wish ? "你的心愿正在飞向月亮，小兔子会帮你好好保管的" : "它正带着今晚的好运气，飞向月亮";
+    wishSub.textContent = text ? "你的心愿正在飞向月亮，小兔子会帮你好好保管的" : "它正带着今晚的好运气，飞向月亮";
+    renderWish();
+    renderIntro();
   });
   input.addEventListener("keydown", e => {
     if (e.key === "Enter" && !e.isComposing) { e.preventDefault(); $("#btn-fly").click(); }
@@ -566,6 +1016,79 @@ button:focus-visible,input:focus-visible{outline:3px solid var(--gold);outline-o
     wishTitle.textContent = "再写一个小心愿吧";
     wishSub.textContent = DEFAULT_SUB;
   });
+
+  /* 找回心愿 */
+  recoverBtn.addEventListener("click", () => {
+    recoverBox.hidden = false;
+    recoverMsg.hidden = true;
+    renderWish();
+    codeInput.focus();
+  });
+  codeInput.addEventListener("input", () => {
+    const d = codeInput.value.replace(/\D/g, "").slice(0, 12);
+    codeInput.value = fmtCode(d);
+  });
+  codeInput.addEventListener("keydown", e => {
+    if (e.key === "Enter" && !e.isComposing) { e.preventDefault(); fetchBtn.click(); }
+  });
+  function sayRecover(t) { recoverMsg.textContent = t; recoverMsg.hidden = false; }
+  fetchBtn.addEventListener("click", async () => {
+    const c = codeInput.value.replace(/\D/g, "");
+    if (c.length !== 12) { sayRecover("取件码是 12 位数字哦"); return; }
+    fetchBtn.disabled = true;
+    sayRecover("正在去月亮上找……");
+    try {
+      const res = await rpc("mrp_get_wishes", { p_code: c });
+      if (res.ok) {
+        state.code = c;
+        state.showCode = false;
+        merge(res.wishes);
+        save();
+        syncFailed = false;
+        recoverBox.hidden = true;
+        const n = (res.wishes || []).length;
+        sayRecover(n ? `找回啦，一共 ${n} 个心愿` : "取件码对啦，不过里面还没有心愿");
+        if (form.hidden === false) setWishHeading();
+        renderWish();
+        renderIntro();
+        flush().catch(() => {});
+      } else if (res.error === "rate_limited") {
+        sayRecover("试太多次啦，过十分钟再来吧");
+      } else {
+        sayRecover("这个取件码好像不对，再检查一下？");
+      }
+    } catch (e) {
+      sayRecover("月亮这会儿信号不太好，稍后再试");
+    } finally {
+      fetchBtn.disabled = false;
+    }
+  });
+
+  /* 心愿小册 */
+  const sheet = $("#sheet"), sheetList = $("#sheet-list");
+  function openSheet() {
+    sheetList.innerHTML = "";
+    newestFirst().forEach(w => {
+      const li = document.createElement("li");
+      const t = document.createElement("div");
+      t.textContent = w.content;
+      const s = document.createElement("small");
+      s.textContent = fmtDate(w.at) + (w.priv ? "（只在这台手机上）" : "");
+      li.append(t, s);
+      sheetList.appendChild(li);
+    });
+    sheet.hidden = false;
+    $("#btn-sheet-close").focus();
+  }
+  function closeSheet() { sheet.hidden = true; bookBtn.focus(); }
+  bookBtn.addEventListener("click", openSheet);
+  $("#btn-sheet-close").addEventListener("click", closeSheet);
+  sheet.addEventListener("click", e => { if (e.target === sheet) closeSheet(); });
+  document.addEventListener("keydown", e => {
+    if (e.key === "Escape") { if (!sheet.hidden) closeSheet(); closeBubble(); }
+  });
+
+  /* 从头再看一遍 */
   $("#btn-restart").addEventListener("click", () => {
     bites = 0; busy = false;
     holes.innerHTML = "";
@@ -576,15 +1099,17 @@ button:focus-visible,input:focus-visible{outline:3px solid var(--gold);outline-o
     cake.hidden = false; paper.hidden = true; openBtn.hidden = true;
     stamp.classList.remove("on"); signBtn.disabled = false;
     form.hidden = false; after.hidden = true;
-    wishTitle.textContent = "写一个小心愿吧";
-    wishSub.textContent = DEFAULT_SUB;
+    upNote.hidden = true; recoverMsg.hidden = true; recoverBox.hidden = true; codeCard.hidden = true;
+    renderIntro();
     go("s-intro");
   });
 
   /* 点天空放小灯笼 */
   let minis = 0;
   stage.addEventListener("click", e => {
-    if (e.target.closest("button,input,label,.note")) return;
+    if (e.target.closest(".bubble")) return;
+    closeBubble();
+    if (e.target.closest("button,input,label,.note,.sheet-wrap,.code-card,.recover")) return;
     if (minis > 24) return;
     minis++;
     const l = makeLantern(true);
@@ -629,6 +1154,27 @@ button:focus-visible,input:focus-visible{outline:3px solid var(--gold);outline-o
       a.onfinish = () => { p.remove(); petals--; };
     }, 1500);
   }
+
+  /* ---------- 启动：先显示本地，再和月亮同步 ---------- */
+  renderIntro();
+  (async () => {
+    if (!CLOUD) return;
+    if (state.code) {
+      try {
+        const res = await rpc("mrp_get_wishes", { p_code: state.code });
+        if (res.ok) { merge(res.wishes); syncFailed = false; }
+        else syncFailed = res.error !== "invalid_code";
+      } catch (e) {
+        syncFailed = true;
+      }
+    }
+    try { await flush(); } catch (e) {}
+    renderIntro();
+    if (sWish.classList.contains("active")) {
+      renderWish();
+      if (state.showCode && state.code) showCodeCard();
+    }
+  })();
 })();
 </script>
 </body>
